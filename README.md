@@ -10,10 +10,10 @@ this setup gives the VM 10 cores, 12GB of ram and dGPU passthough which can give
 sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs
 ```
 ### 2. install ISO
-> [win 10 iso](https://www.microsoft.com/en-us/software-download/windows10ISO)\n /n
-> [win 11 iso](https://www.microsoft.com/software-download/windows11)\n
+> [win 10 iso](https://www.microsoft.com/en-us/software-download/windows10ISO)__
+> [win 11 iso](https://www.microsoft.com/software-download/windows11)__
 ### 3. Virtual Machine Manager 
 Enable 
-> [Edit > Preferences > General > Enable XML Editing]
-> click on QEMU/KVM and then [Edit > Connection Details > Overview > Basic Details > autoconnect]
-> click on QEMU/KVM and then [Edit > Connection Details > Virtual Networks > default > Autostart > On Boot]
+> [Edit > Preferences > General > Enable XML Editing]__
+> click on QEMU/KVM and then [Edit > Connection Details > Overview > Basic Details > autoconnect]__
+> click on QEMU/KVM and then [Edit > Connection Details > Virtual Networks > default > Autostart > On Boot]__
