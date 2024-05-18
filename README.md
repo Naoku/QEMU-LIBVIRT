@@ -10,8 +10,8 @@ this setup gives the VM 10 cores, 12GB of ram and dGPU passthough which can give
 sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs
 ```
 ### 2. install ISO
-> [win 10 iso](https://www.microsoft.com/en-us/software-download/windows10ISO)
-> [win 11 iso](https://www.microsoft.com/software-download/windows11)
+> [win 10 iso](https://www.microsoft.com/en-us/software-download/windows10ISO)\n /n
+> [win 11 iso](https://www.microsoft.com/software-download/windows11)\n
 ### 3. Virtual Machine Manager 
 Enable 
 > [Edit > Preferences > General > Enable XML Editing]
