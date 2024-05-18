@@ -15,5 +15,15 @@ sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-n
 ### 3. Virtual Machine Manager 
 Enable 
 > [Edit > Preferences > General > Enable XML Editing]  
-> click on QEMU/KVM and then [Edit > Connection Details > Overview > Basic Details > autoconnect]  
-> click on QEMU/KVM and then [Edit > Connection Details > Virtual Networks > default > Autostart > On Boot]  
+> [Edit > Connection Details > Overview > Basic Details > autoconnect]  
+> [Edit > Connection Details > Virtual Networks > default > Autostart > On Boot]  
+
+### 4. New VM
+> [File > New Virtual Machine]  
+Step 1 - Skip, click forward  
+Step 2 - Choose ISO and os you will use, auto sucks  
+Step 3 - Change memory to your liking and set CPUs to 1  
+Step 4 - Create virtual disk, you can have multiple or disable storage for VM and passthough 2nd disk if you have one  
+Step 5 - Change the name to something you will remember for example "win11", and check customize configuration before install  
+Step 6 - Remove network interface and change CPU topology, dont use all cores and threads, Threads are per core so for example if you are going to use 4 cores and 8 threads set `4 CORES and 2 THREADS`  
+Step 7 - Click begin installation   
