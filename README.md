@@ -19,7 +19,8 @@ Enable
 > [Edit > Connection Details > Virtual Networks > default > Autostart > On Boot]  
 
 ### 4. New VM
-> [File > New Virtual Machine]  
+> [File > New Virtual Machine]
+
 Step 1 - Skip, click forward  
 Step 2 - Choose ISO and os you will use, auto sucks  
 Step 3 - Change memory to your liking and set CPUs to 1  
