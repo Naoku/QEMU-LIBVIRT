@@ -1,15 +1,15 @@
 # QEMU-LIBVIRT
-my qemu-libvirt, looking-glass setup
+my qemu-libvirt, looking-glass setup.
 
-## this is 2 gpu setup in my case iGPU and dGPU
+In my case intel iGPU UHD Graphics 630 and dGPU nvidia gtx 1660 ti moblie from lenovo. 
+this setup gives the VM 10 cores, 12GB of ram and dGPU passthough which can give near native performance with small input lag with help of looking glass.
 
-# 1. install all packages
+/## general windows VM 
+./### 1. install these packages
 ```
 sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs
 ```
-# 2. install hook manager
-```
-sudo wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' \
-     -O /etc/libvirt/hooks/qemu
-sudo chmod +x /etc/libvirt/hooks/qemu
-```
+./### 2. install iso from microsoft
+[win 10 iso](https://www.microsoft.com/en-us/software-download/windows10ISO)
+[win 11 iso](https://www.microsoft.com/software-download/windows11)
+./### 3. virtual machine manager 
