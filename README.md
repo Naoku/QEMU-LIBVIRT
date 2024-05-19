@@ -146,4 +146,6 @@ and paste this line to this file replacing user with your username
 ```
 f	/dev/shm/looking-glass	0660	user	kvm	-
 ```
+```
 sudo systemd-tmpfiles --create /etc/tmpfiles.d/10-looking-glass.conf
+```
