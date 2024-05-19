@@ -81,3 +81,35 @@ Step 5 - Run VM
 Install Drivers for the GPU, if you gpu is mobile you will have to make extra steps. 
 
 ### 2. Only one GPU 
+Step 1 - Install qemu hooks manager  
+```
+sudo wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' \
+     -O /etc/libvirt/hooks/qemu
+sudo chmod +x /etc/libvirt/hooks/qemu
+```
+
+Step 2 - Make directories  
+```
+sudo mkdir -p /etc/libvirt/hooks/qemu.d/(VM NAME)/prepare/begin/
+sudo mkdir -p /etc/libvirt/hooks/qemu.d/(VM NAME)/release/end/
+```
+
+Step 3 - GPU files  
+[My files](GPU%20PASSTHROUGH/One%20GPU)
+change GPU ids in these files using command `lspci`, that number before your gpu is the only thing you need, copy every one that includes your gpu and replace all dots and colons with underscores.  
+
+Paste these files to  
+revert.sh to /etc/libvirt/hooks/qemu.d/(VM NAME)/release/end/    
+start.sh to /etc/libvirt/hooks/qemu.d/(VM NAME)/prepare/begin/   
+
+Make them executable
+```
+sudo chmod +x /etc/libvirt/hooks/qemu.d/(VM NAME)/release/end/revert.sh
+sudo chmod +x /etc/libvirt/hooks/qemu.d/(VM NAME)/prepare/begin/start.sh
+```
+
+Step 4 - Add GPU in Virtual Machine Manager  
+Click open on VM, then on the bottom left click `Add Hardware` and add same pci id as in the step 3  
+
+Step 5 - Run VM  
+Install Drivers for the GPU, if you gpu is mobile you will have to make extra steps. 
