@@ -114,5 +114,36 @@ Click open on VM, then on the bottom left click `Add Hardware` and add same pci 
 Step 5 - Run VM  
 Install Drivers for the GPU, if you gpu is mobile you will have to make extra steps. 
 
+### Done
 
 ## Looking Glass
+Looking Glass makes VM better to use, less input lag etc.   
+Looking Glass require 2nd monitor, HDMI or DP dummy plug or Driver that will simulate 2nd monitor 
+### Download Looking Glass
+Looking glass has to be same version on host and guest pc otherwise it will not work, i would suggest to download it from [aur on host pc](https://aur.archlinux.org/packages/looking-glass) and on VM download version B6 from [Looking glass site](https://looking-glass.io/downloads)
+
+### Edit Looking glass 
+run command   
+```
+sudo EDITOR=nvim virsh edit (VM NAME)
+```
+and add  
+```
+  <shmem name='looking-glass'>
+    <model type='ivshmem-plain'/>
+    <size unit='M'>32</size>
+  </shmem>
+```
+right before  
+```
+</devices>
+```
+### Create file and edit it
+```
+sudo nvim /etc/tmpfiles.d/10-looking-glass.conf
+```
+and paste this line to this file replacing user with your username 
+```
+f	/dev/shm/looking-glass	0660	user	kvm	-
+```
+sudo systemd-tmpfiles --create /etc/tmpfiles.d/10-looking-glass.conf
