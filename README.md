@@ -122,7 +122,7 @@ Looking Glass require 2nd monitor, HDMI or DP dummy plug or Driver that will sim
 ### Download Looking Glass
 Looking glass has to be same version on host and guest pc otherwise it will not work, i would suggest to download it from [aur on host pc](https://aur.archlinux.org/packages/looking-glass) and on VM download version B6 from [Looking glass site](https://looking-glass.io/downloads)
 
-### Edit Looking glass 
+### Edit VM 
 run command   
 ```
 sudo EDITOR=nvim virsh edit (VM NAME)
@@ -138,6 +138,14 @@ right before
 ```
 </devices>
 ```
+
+change video model to none and delete tablet device
+```
+    <video>
+      <model type='none'/>
+    </video>
+```
+
 ### Create file and edit it
 ```
 sudo nvim /etc/tmpfiles.d/10-looking-glass.conf
@@ -150,3 +158,4 @@ and run this command
 ```
 sudo systemd-tmpfiles --create /etc/tmpfiles.d/10-looking-glass.conf
 ```
+
