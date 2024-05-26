@@ -39,9 +39,42 @@ After this whole setup you should be greeted with bloated windows 10/11 desktop,
 Install [Cpp Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)  
 And now install [Libvirt Drivers](https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md)  
 
-### 6. Done!
-Windows wm is now done and ready to use!   
-But you are probably here for gpu passthrough, looking glass and cpu pinning so lets go    
+## CPU pinning 
+CPU pinning makes that your host pc uses some cores only if it is necessary   
+### Finding your cores
+use command `lscpu -e`   
+if your cpu has more than 1 core and 1 thread you should see list of them all 
+Example output of i7-9750H 
+```
+CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE    MAXMHZ   MINMHZ       MHZ
+  0    0      0    0 0:0:0:0          yes 4500.0000 800.0000 4191.3130
+  1    0      0    1 1:1:1:0          yes 4500.0000 800.0000 4189.4761
+  2    0      0    2 2:2:2:0          yes 4500.0000 800.0000 4195.7422
+  3    0      0    3 3:3:3:0          yes 4500.0000 800.0000  800.0000
+  4    0      0    4 4:4:4:0          yes 4500.0000 800.0000 4195.7671
+  5    0      0    5 5:5:5:0          yes 4500.0000 800.0000 4153.4458
+  6    0      0    0 0:0:0:0          yes 4500.0000 800.0000 4172.5459
+  7    0      0    1 1:1:1:0          yes 4500.0000 800.0000 4199.1362
+  8    0      0    2 2:2:2:0          yes 4500.0000 800.0000 4168.4658
+  9    0      0    3 3:3:3:0          yes 4500.0000 800.0000 4118.1348
+ 10    0      0    4 4:4:4:0          yes 4500.0000 800.0000 4186.9038
+ 11    0      0    5 5:5:5:0          yes 4500.0000 800.0000 4199.3618
+ ```
+If you can see some "CPUs" share the same "CORE", thats because this cpu has 6 cores and 12 threads.  
+If you want to do cpu pinning you need to pin the whole core with all threads so in this case if i wanted to pin "CPU 3" i would have to pin the "CPU 9" too.  
+
+### Pinning cpus
+Right after `<vcpu placement='static'>(number of cores)</vcpu>` you need to add some lines.  
+Using the same example as before If i wanted to pin core 3 and core 9 it would look like this.  
+```
+<cputune>
+    <vcpupin vcpu='0' cpuset='3'/>
+    <vcpupin vcpu='1' cpuset='9'/>
+</cputune>
+```
+
+`vcpu` is the core in guest VM and `cpuset` is core in host pc.  
+
 
 ## GPU passthrough!  
 There are many way to setup gpu passthrough, it depends if you have iGPU and dGPU, one GPU or 2 dGPUs, in this case i will only explain the first two.   
@@ -114,8 +147,6 @@ Click open on VM, then on the bottom left click `Add Hardware` and add same pci 
 Step 5 - Run VM  
 Install Drivers for the GPU, if you gpu is mobile you will have to make extra steps. 
 
-### Done
-
 ## Looking Glass
 Looking Glass makes VM better to use, less input lag etc.   
 Looking Glass require 2nd monitor, HDMI or DP dummy plug or Driver that will simulate 2nd monitor 
@@ -159,3 +190,28 @@ and run this command
 sudo systemd-tmpfiles --create /etc/tmpfiles.d/10-looking-glass.conf
 ```
 
+### Config file 
+you can create looking glass config, if you want to make your looking glass always fullscreen or something like that create config file `~/.config/looking-glass/client.ini` and use this [site](https://looking-glass.io/docs/B5.0.1/install/)
+
+## Extra fixes  
+
+### Fix for laptop,mobile GPUs  
+Create new file, using command bellow in directory you will remember, for me its `/etc/libvirt/hooks/qemu.d`  
+```  
+echo 'U1NEVKEAAAAB9EJPQ0hTAEJYUENTU0RUAQAAAElOVEwYEBkgoA8AFVwuX1NCX1BDSTAGABBMBi5f
+U0JfUENJMFuCTwVCQVQwCF9ISUQMQdAMCghfVUlEABQJX1NUQQCkCh8UK19CSUYApBIjDQELcBcL
+cBcBC9A5C1gCCywBCjwKPA0ADQANTElPTgANABQSX0JTVACkEgoEAAALcBcL0Dk=' | base64 -d > SSDT1.dat
+```
+add this to your VM config 
+```
+<domain xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0" type="kvm">
+  ...
+  <qemu:commandline>
+    <qemu:arg value="-acpitable"/>
+    <qemu:arg value="file=/path/to/your/SSDT1.dat"/>
+  </qemu:commandline>
+</domain>
+```
+
+### looking glass without 2nd monitor or dummy plug 
+i got it from [there](https://www.reddit.com/r/VFIO/comments/wj6zhz/gpu_passthrough_looking_glass_no_external/), it works :)  
